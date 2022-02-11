@@ -15,7 +15,7 @@ app.get("/", (request, response) => {
     response.send("Get Snack'n at Snack-a-log!");
 });
 
-app.use("/snack", snacksController);
+app.use("/snacks", snacksController);
 
 
 //Star(*) matches anything we haven't matched yet.

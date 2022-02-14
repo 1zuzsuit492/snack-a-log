@@ -1,9 +1,12 @@
 // DEPENDENCIES
-
+const snacksController = require('./controllers/snackController');
 const express = require("express");
+const cors = require('cors')
+const PORT = process.env.PORT || 3003;
 
 // CONFIGURATION
 const app = express();
+app.use(express.json())
 
 // MIDDLEWARE
 

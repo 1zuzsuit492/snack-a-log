@@ -2,7 +2,7 @@ const express = require("express");
 
 const {
   getAllSnacks,
-  getSnack,
+  getOneSnack,
   addNewSnack,
   deleteSnack,
   updateSnack,
@@ -20,17 +20,17 @@ snacks.get("/", async (_, response) => {
     return;
   }
 
-  response.status(200).json(allSnacks);
+  response.status(200).json({ success: true, payload: allSnacks });
 });
 
 // Show snack
 snacks.get("/:id", async (request, response) => {
   console.log("GET request to /snacks/:id");
-  const snack = await getSnack(request.params.id);
+  const snack = await getOneSnack(request.params.id);
   if (snack.id) {
-    response.status(200).json(snack);
+    response.status(200).json(({ success: true, payload: snack }));
   } else {
-    response.status(404).json("snack does not exist");
+    response.status(404).json(({ success: false, payload: snack }));
   }
 });
 
@@ -50,9 +50,9 @@ snacks.delete("/:id", async (request, response) => {
   console.log("DELETE request to /snacks/:id");
   const deletedSnack = await deleteSnack(request.params.body);
   if (deleteSnack.id) {
-    response.status(200).json(deletedSnack);
+    response.status(200).json(({ success: true, payload: deletedSnack }));
   } else {
-    response.status(404).json("snack does not exist.");
+    response.status(404).json("not found");
   }
 });
 
@@ -61,9 +61,9 @@ snacks.put("/:id", async (request, response) => {
   console.log("UPDATE request to /snacks/:id");
   const updatedSnack = await updateSnack(request.params.id, request.body);
   if (updatedSnack.id) {
-    response.status(200).json(updatedSnack);
+    response.status(200).json(({ success: true, payload: updatedSnack }));
   } else {
-    response.status(404).json("snack does not exist.");
+    response.status(404).json("not found");
   }
 });
 

@@ -24,7 +24,7 @@ function SnackDetails() {
       .catch((err) => console.log(err));
   };
 
-  let { name, fiber, protein, added_sugar, is_healthy, image } = snack;
+  let { name, fiber, protein, added_sugar, image } = snack;
 
   return (
     <div className="Snacks">

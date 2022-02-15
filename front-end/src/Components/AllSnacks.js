@@ -5,7 +5,7 @@ import HeartHealth from "./HeartHealth";
 
 function AllSnacks() {
   const URL = process.env.REACT_APP_API_URL;
-  const [allSnacks, setSnack] = useState([]);
+  const [snacks, setSnack] = useState([]);
   console.log(URL);
 
   useEffect(() => {
@@ -17,23 +17,30 @@ function AllSnacks() {
       .catch((err) => console.warn(err));
   }, [URL]);
 
-  console.log(allSnacks);
+  console.log(snacks);
 
   return (
     <div className="AllSnacks">
-      {allSnacks.map((snack) => {
+      {snacks.map((snack) => {
+        const { id, name, image, is_healthy } = snack;
         return (
-          <>
-            <Link
-              to={`/snacks/` + snack.id}
-              key={snack.id}
-              className="snack-card"
-            >
-              <img src={snack.image} alt="" />
-              <p>{<HeartHealth snackHealth={snack.is_healthy} />}</p>
+          <article className="Snack">
+            <Link to={`/snacks/${id}`}>
+              <div className="snack-card">
+                <h4>
+                  <img
+                    src={image}
+                    alt={is_healthy ? "healthy food" : "unhealthy food"}
+                  />
+                </h4>
+                <h4>{name}</h4>
+                <h4>{is_healthy}</h4>
+                <span className="all-display-heart">
+                  {HeartHealth(is_healthy)}
+                </span>
+              </div>
             </Link>
-            <h4>{snack.name}</h4>
-          </>
+          </article>
         );
       })}
     </div>

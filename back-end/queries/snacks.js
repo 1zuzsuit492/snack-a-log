@@ -24,7 +24,7 @@ const getOneSnack = async (id) => {
 const addNewSnack = async (newSnack) => {
   try {
     const { name, fiber, protein, added_sugar, is_healthy, image } = newSnack;
-    const snack = await database.any(
+    const snack = await database.one(
       "INSERT INTO snacks (name, fiber, protein, added_sugar, is_healthy, image) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
       [name, fiber, protein, added_sugar, is_healthy, image]
     );

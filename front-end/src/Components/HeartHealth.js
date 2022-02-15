@@ -1,11 +1,13 @@
 import heartSolid from "../assets/heart-solid.png";
 import heartOutline from "../assets/heart-regular.png";
 
-function HeartHealth({ snackHealth }) {
-  if(snackHealth){
-  return <img className="heartSolid" src={heartSolid} alt={"healthy food"}/>;
+function HeartHealth({ is_healthy }) {
+  if (is_healthy) {
+    return <img className="heartSolid" src={heartSolid} alt={"healthy food"} />;
   }
-  return <img className="heartOutline" src={heartOutline} alt={"unhealthy food"}/>;
+  return (
+    <img className="heartOutline" src={heartOutline} alt={"unhealthy food"} />
+  );
 }
 
 export default HeartHealth;

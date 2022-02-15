@@ -7,7 +7,6 @@ const {
   deleteSnack,
   updateSnack,
 } = require("../queries/snacks");
-const confirmHealth = require("../confirmHealth");
 
 const snacks = express.Router();
 
@@ -29,66 +28,31 @@ snacks.get("/:id", async (request, response) => {
   console.log("GET request to /snacks/:id");
   const snack = await getOneSnack(request.params.id);
   if (snack.id) {
-    response.status(200).json({ success: true, payload: snack });
+    response.status(200).json(({ success: true, payload: snack }));
   } else {
-    response.status(404).json({ success: false, payload: "not found" });
+    response.status(404).json(({ success: false, payload: snack }));
   }
 });
 
 // Create snack
 snacks.post("/", async (request, response) => {
-  const newSnack = await addNewSnack(request.body);
-
-  if (newSnack.name && newSnack.image) {
-    const nameArr = newSnack.name.split(" ");
-    let formattedName = [];
-    for (const w of nameArr) {
-      if (w.length >= 3) {
-        formattedName.push(w[0].toUpperCase() + w.slice(1).toLowerCase());
-      } else {
-        formattedName.push(w);
-      }
-    }
-
-    newSnack.name = formattedName.join(" ");
-    newSnack.is_healthy = confirmHealth(newSnack);
-
-    response.status(200).json({
-      success: true,
-      payload: newSnack,
-    });
-  } else if (!newSnack.image) {
-    newSnack.image =
-      "https://dummyimage.com/400x400/6e6c6e/e9e9f5.png&text=No+Image";
-    const formattedName = newSnack.name
-      .split(" ")
-      .map((w) => w[0].toUpperCase() + w.substring(1).toLowerCase())
-      .join(" ");
-
-    newSnack.name = formattedName;
-    newSnack.is_healthy = confirmHealth(newSnack);
-
-    response.status(200).json({
-      success: true,
-      payload: newSnack,
-    });
-  } else {
-    response.status(404).json({
-      success: false,
-      payload: "not found",
-    });
+  try {
+    console.log("POST request to /snacks");
+    const newSnack = await addNewSnack(request.body);
+    response.json(newSnack);
+  } catch (error) {
+    response.status(400).json({ error: error });
   }
 });
 
 // Delete snack
 snacks.delete("/:id", async (request, response) => {
   console.log("DELETE request to /snacks/:id");
-  const deletedSnack = await deleteSnack(request.params.id);
-  if (deletedSnack.id) {
-    console.log("im the response");
-    response.status(200).json({ success: true, payload: deletedSnack });
+  const deletedSnack = await deleteSnack(request.params.body);
+  if (deleteSnack.id) {
+    response.status(200).json(({ success: true, payload: deletedSnack }));
   } else {
-    response.status(404).json({ success: false, payload: "not found" });
+    response.status(404).json("not found");
   }
 });
 
@@ -97,7 +61,7 @@ snacks.put("/:id", async (request, response) => {
   console.log("UPDATE request to /snacks/:id");
   const updatedSnack = await updateSnack(request.params.id, request.body);
   if (updatedSnack.id) {
-    response.status(200).json({ success: true, payload: updatedSnack });
+    response.status(200).json(({ success: true, payload: updatedSnack }));
   } else {
     response.status(404).json("not found");
   }

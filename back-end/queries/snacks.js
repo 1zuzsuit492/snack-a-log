@@ -23,10 +23,9 @@ const getOneSnack = async (id) => {
 
 const addNewSnack = async (newSnack) => {
   try {
-    const { name, fiber, protein, added_sugar, is_healthy, image } = newSnack;
-    const snack = await database.one(
-      "INSERT INTO snacks (name, fiber, protein, added_sugar, is_healthy, image) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
-      [name, fiber, protein, added_sugar, is_healthy, image]
+    const snack = await database.any(
+      "INSERT INTO snacks (name, release) VALUES ($1, $2) RETURNING *",
+      [newSnack.name, newSnack.release]
     );
     return snack;
   } catch (error) {
@@ -48,10 +47,8 @@ const deleteSnack = async (id) => {
 };
 
 const updateSnack = async (snack, id) => {
-  const { name, fiber, protein, added_sugar, is_healthy, image } = snack;
-  const query =
-    "UPDATE snacks SET name=$1, fiber=$2, protein=$3, added_sugar=$4, is_healthy=$5, image=$6 WHERE id=$7 RETURNING *";
-  const values = [name, fiber, protein, added_sugar, is_healthy, image, id];
+  const query = "UPDATE snacks SET name=$1, release=$2 WHERE id=$3 RETURNING *";
+  const values = [snack.name, snack.release, id];
   const updated = await database.one(query, values);
 
   return updated;

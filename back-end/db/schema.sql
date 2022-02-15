@@ -4,4 +4,3 @@ CREATE DATABASE snack_a_log;
 \c snack_a_log; 
 
 
-CREATE TABLE snacks(id SERIAL PRIMARY KEY, name TEXT NOT NULL, image TEXT, fiber INT default 0, protein INT default 0, added_sugar INT default 0, is_healthy BOOLEAN);

@@ -7,6 +7,8 @@ const PORT = process.env.PORT || 3003;
 // CONFIGURATION
 const app = express();
 app.use(express.json())
+app.use(cors())
+
 
 // MIDDLEWARE
 

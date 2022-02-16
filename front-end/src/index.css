@@ -1,0 +1,45 @@
+body {
+    font-family: "Overlock", cursive;
+  }
+  
+  h1 {
+    font-family: "Carter One", cursive;
+  }  
+main{
+    width: 90px;
+    margin: auto;
+}
+nav {
+    background-color: rgb(37, 36, 34);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    padding-left: 3em;
+    padding-right: 3em;
+    margin-bottom: 1em;
+}
+a {
+    text-decoration: none;
+    color: rgb(235, 94, 40)
+}
+h4{
+    margin: 0;
+    font-size: 1em;
+    text-align: center;
+}
+.Snacks img{
+    width: 150px;
+}
+article .Snack{
+    background-color: rgb(255, 252, 242);
+    padding: 1em;
+    width: 150px;
+}
+article{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 1em;
+}

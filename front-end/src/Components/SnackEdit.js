@@ -1,79 +1,90 @@
 import { useState, useEffect } from "react";
-import axios from 'axios';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, Link } from "react-router-dom";
+import axios from "axios";
+// import ToggleHeart from "./ToggleHeart";
+import HeartHealth from "./HeartHealth";
 
-function SnackEdit() {
-    const URL = process.env.REACT_APP_API_URL;
-    const { id } = useParams();
-    const navigate = useNavigate();
-    const [snack, setSnack] = useState({
-        name: "",
-        fiber: "",
-        protein: "",
-        added_sugar: "",
-        is_healthy: false,
-        image: "",
-    });
+const API = process.env.REACT_APP_API_URL;
 
-    const handleChange = (event) => {
-        if (event.target.id === "is_healthy") {
-            setSnack({ ...snack, is_healthy: !snack.is_healthy });
-        } else {
-            setSnack({ ...snack, [event.target.id]: event.target.value });
-        }
-    };
+function SnackEditForm() {
+  let { id } = useParams();
+  const [snack, setSnack] = useState({
+    name: "",
+    fiber: 0,
+    protein: 0,
+    added_sugar: 0,
+    is_healthy: false,
+    image: "",
+  });
 
-    useEffect(() => {
-        axios.get(`${URL}/transactions/${id}`)
-            .then((response) => {
-                console.log(response.data)
-                setSnack(response.data);
-            })
-    }, [URL, id]);
+  const navigate = useNavigate();
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        axios.put(`${URL}/snacks/${id}`, snack)
-            .then(() => {
-                navigate("/");
-            }).catch((err) => {
-                console.warn(err);
-            })
-    };
+  const handleText = (event) => {
+    setSnack({ ...snack, [event.target.id]: event.target.value });
+  };
 
-    return (
-        <form onSubmit={handleSubmit}>
-            <label for="name">Name:</label>
-            <input id="name" name="name" value={snack.name}
-            onChange={handleChange} placeholder="name"/>
-            <label for="fiber">Protein:</label>
-            
-            <label for="fiber">Fiber:</label>
-            <input id="fiber" name="fiber"
-            value={snack.fiber} onChange={handleChange} placeholder="fiber"/>
+  useEffect(() => {
+    axios
+      .get(`${API}/snacks/${id}`)
+      .then((response) => setSnack(response.data.payload))
+      .catch((error) => console.warn(error));
+  }, [id]);
 
-            <label for="protein">Protein:</label>
-            <input id="protein" name="protein" value={snack.protein} 
-            onChange={handleChange} placeholder="protein"/>
-            
-            <label for="added_sugar">Added Sugars:</label>
-            <input id="added_sugar" name="added_sugar"
-            value={snack.added_sugar} onChange={handleChange}
-            placeholder="added_sugar"/>
+  const handleEdit = (event) => {
+    event.preventDefault();
+    axios
+      .put(`${API}/snacks/${id}`, snack)
+      .then((response) => navigate("/snacks"))
+      .catch((err) => console.warn(err));
+  };
 
-            <label for="is_healthy">Is it Healthy:</label>
-            <input id="is_healthy" name="is_healthy"
-            value={snack.is_healthy} onChange={handleChange}
-            placeholder="is_healthy"/>
+  let { name, fiber, protein, added_sugar, image } = snack;
 
-            <label for="image">Image:</label>
-            <input id="image" name="image" value={snack.image}
-            onChange={handleChange} placeholder="image"/>
-        </form>
-    );
-};
+  return (
+    <div id="edit-form">
+      <form onSubmit={handleEdit}>
+        <div className="editform-heart">
+          <HeartHealth snackHealth={snack} />
+        </div>
 
+        <label htmlFor="name">Name</label>
+        <input
+          id="name"
+          value={name}
+          type="text"
+          onChange={handleText}
+          required
+        />
 
-export default SnackEdit;
+        <label htmlFor="fiber">Fiber</label>
+        <input id="fiber" value={fiber} type="number" onChange={handleText} />
 
+        <label htmlFor="protein">Protein</label>
+        <input
+          id="protein"
+          value={protein}
+          type="number"
+          onChange={handleText}
+        />
 
+        <label htmlFor="added_sugar">Added Sugar</label>
+        <input
+          id="added_sugar"
+          value={added_sugar}
+          type="number"
+          onChange={handleText}
+        />
+
+        <label htmlFor="image">Image</label>
+        <input id="image" value={image} type="text" onChange={handleText} />
+
+        <button type="submit">Submit</button>
+        <button>
+          <Link to={`/snacks/${id}`}>Back</Link>
+        </button>
+      </form>
+    </div>
+  );
+}
+
+export default SnackEditForm;

@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import HeartHealth from "./HeartHealth";
+import "./AllSnacks.css";
 
 function AllSnacks() {
   const URL = process.env.REACT_APP_API_URL;
@@ -24,7 +25,7 @@ function AllSnacks() {
       {snacks.map((snack) => {
         const { id, name, image, is_healthy } = snack;
         return (
-          <article className="Snack">
+          <article className="Snacks">
             <Link to={`/snacks/${id}`}>
               <div className="snack-card">
                 <h4>
@@ -35,9 +36,7 @@ function AllSnacks() {
                 </h4>
                 <h4>{name}</h4>
                 <h4>{is_healthy}</h4>
-                <span className="all-display-heart">
-                  {HeartHealth(is_healthy)}
-                </span>
+                <span className="all-display-heart">{HeartHealth(snack)}</span>
               </div>
             </Link>
           </article>

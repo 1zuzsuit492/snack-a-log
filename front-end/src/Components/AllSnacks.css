@@ -1,0 +1,38 @@
+h1 {
+  font-family: Carter One;
+}
+main {
+  width: 90px;
+  margin: auto;
+}
+nav {
+  background-color: rgb(37, 36, 34);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  padding-left: 3em;
+  padding-right: 3em;
+  margin-bottom: 1em;
+}
+a {
+  text-decoration: none;
+  color: rgb(235, 94, 40);
+}
+h4 {
+  margin: 0;
+  font-size: 1em;
+  text-align: center;
+}
+img.Snacks {
+  width: 300px;
+}
+.Snack {
+  background-color: rgb(255, 252, 242);
+}
+.Snacks article {
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 1em;
+}
